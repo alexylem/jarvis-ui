@@ -1,0 +1,24 @@
+.panel-heading img {
+    height: 38px;
+}
+
+.panel-default {
+    max-width: 800px;
+    margin-top: 50px;
+}
+
+.panel-body {
+    height: 300px;
+    overflow-y: auto;
+    font-family: monospace;
+}
+
+.panel-body ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li.jarvis span { color: magenta; }
+li.error { color: red; }
+li.debug { color: gray; }
+li.you span { color: dodgerblue; }
