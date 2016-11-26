@@ -1,5 +1,5 @@
 // Log levels
-my.loglevel = 3;
+my.loglevel = 4;
 Ractive.DEBUG = (my.log_level >= 4);
 
 // Global variables
@@ -108,17 +108,21 @@ ractive.on ('commands_save_btn', function (e) {
 
 ractive.on('submit', function(event) {
     event.original.preventDefault();
-    var order=this.get('order');
+    var order=this.get('order'),
+        action=ractive.get ('action'),
+        data={ verbose: ractive.get('client.verbose') };
     ractive.set('order', '');
-    ractive.addMessage ('You', order);
-    $(".panel-body").animate({ scrollTop: 9999 });
+    data[action]=order;
+    if (action == "order") {
+        data.mute=ractive.get('client.mute');
+        ractive.addMessage ('You', order);
+        $(".panel-body").animate({ scrollTop: 9999 });
+    } else {
+        data.mute=false;
+    }
     my.post({
         url: ractive.get ('server_url'),
-        data: JSON.stringify ({
-            order: order,
-            mute: ractive.get('client.mute'),
-            verbose: ractive.get('client.verbose')
-        }),
+        data: JSON.stringify (data),
         success: function (messages) {
             $.each (messages, function () {
                 $.each (this, function (key, text) {

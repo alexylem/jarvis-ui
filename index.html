@@ -57,8 +57,8 @@
                 <form on-submit="submit">
                     <div class="row">
                         <div class="col-xs-3">
-                            <select value="{{action}}" class="form-control" disabled>
-                                <option value="order">Order</option>
+                            <select value="{{action}}" class="form-control">
+                                <option value="order">Execute</option>
                                 <option value="say">Say</option>
                             </select>
                         </div>
@@ -67,9 +67,9 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" disabled="disabled"><span class="fa fa-microphone"></span></button>
                                 </span>
-                                <input id="order_input" type="text" class="form-control" placeholder="Type an order..." value="{{order}}">
+                                <input id="order_input" type="text" class="form-control" placeholder="Type {{#if action=='order'}}an order{{else}}something to say{{/if}}..." value="{{order}}">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-success" type="button"><span class="glyphicon glyphicon-send"></span></button>
+                                    <button class="btn btn-success" type="button" on-click="submit" {{#unless order}}disabled{{/unless}}><span class="glyphicon glyphicon-send"></span></button>
                                 </span>
                             </div>
                         </div>
