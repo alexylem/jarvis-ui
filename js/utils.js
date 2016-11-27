@@ -97,7 +97,7 @@ var my = new function () { // new is needed!
 					success(response);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				my.log ('textStatus', textStatus);
+                my.log ('Error', XMLHttpRequest, textStatus, errorThrown);
                 if (textStatus == 'timeout') {
                     this.tryCount++;
                     if (this.tryCount <= this.retryLimit) {
@@ -106,13 +106,15 @@ var my = new function () { // new is needed!
                     }
                 }
                 ractive.set ('loading', false);
-				var message = textStatus+';'+XMLHttpRequest.responseText+';'+errorThrown;
-				if (typeof(ferror) == 'function')
-					ferror(message);
-				else {
-                    my.warn ('Warning '+XMLHttpRequest.status+' from '+url+': '+ message);
-                }
-			}
+                if (XMLHttpRequest.readyState === 0)
+                    error = "Connection error. Verify Jarvis is started, has jarvis-api installed and check api port in Client settings";
+                else
+                    error = 'Error '+XMLHttpRequest.status+' from '+url+': '+textStatus+';'+XMLHttpRequest.responseText+';'+errorThrown;
+                if (typeof(ferror) == 'function')
+    				ferror(error);
+				else
+                    my.error (error);
+            }
 		});
 	};
     

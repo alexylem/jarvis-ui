@@ -298,13 +298,14 @@ ractive.observe('client.theme', function ( newValue, oldValue, keypath ) {
     themesheet.attr('href',themes[newValue]);
 });
 
-$('#commands_modal').on('show.bs.modal', function () {
+ractive.on ('open_commands', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
             action: "get_commands"
         }),
         success: function (result) {
+            $('#commands_modal').modal('show');
             codemirror.setValue (result.commands);
             setTimeout(function() {
                 codemirror.refresh();
@@ -335,8 +336,10 @@ ractive.on ('open_settings', function () {
         data: JSON.stringify ({ action: "get_config" }),
         success: function (config) {
             ractive.set ('server', config);
-            // open settings modal
+            // open jarvis settings modal
             $('#settings_modal').modal('show');
+            // select first tab
+            $('#settings_modal ul.nav-pills > li > a').first().click();
         }
     });
 });

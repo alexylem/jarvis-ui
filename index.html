@@ -40,14 +40,17 @@
                             <span class="fa fa-cog"></span> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="#" data-toggle="modal" data-target="#commands_modal">
+                            <li><a href="#" on-click="open_commands">
                                 <span class="fa fa-file-code-o"></span> Commands
                             </a></li>
                             <li class="disabled"><a href="#">
                                 <span class="fa fa-calendar"></span> Events
                             </a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#client_settings_modal">
+                                <span class="fa fa-sliders"></span> Client settings
+                            </a></li>
                             <li><a href="#" on-click="open_settings">
-                                <span class="fa fa-cog"></span> Settings
+                                <span class="fa fa-cog"></span> Jarvis settings
                             </a></li>
                         </ul>
                     </div>
@@ -120,15 +123,61 @@
             </div>
         </div>
     </div>
-    
-    <!-- Settings -->
+
+    <!-- Client Settings -->
+    <div class="modal fade" id="client_settings_modal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Client Settings</h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="form-group col-md-6">
+                        <label for="port" class="control-label">Javis-API Port</label>
+                        <input class="form-control" type="number" id="port" value="{{client.port}}" placeholder="ex: 8080">
+                        <span class="text-muted">Port Number of Jarvis API (see in plugin configuration)</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="theme" class="control-label">Theme</label>
+                        <select id="theme" value="{{client.theme}}" class="form-control">
+                            <option value="slate">Dark</option>
+                            <option value="default">Light</option>
+                        </select>
+                        <span class="text-muted">Theme for User Interface</span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked="{{client.mute}}">
+                            Mute
+                          </label>
+                          <span class="text-muted clearfix">Check this to mute remote Jarvis and only have textual responses</span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" checked="{{client.verbose}}">
+                            Verbose
+                          </label>
+                          <span class="text-muted clearfix">Call Jarvis in Troubleshooting mode to display DEBUG messages</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jarvis Settings -->
     <div class="modal fade" id="settings_modal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <!-- Nav tabs -->
                     <ul class="nav nav-pills">
-                        <li class="active"><a href="#client" data-toggle="tab">Client</a></li>
                         {{#each config_tabs}}
                             <li><a href="#{{this.key}}" data-toggle="tab">{{this.label}}</a></li>
                         {{/each}}
@@ -138,39 +187,6 @@
                 <div class="modal-body">
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane fade in active row" id="client">
-                            <div class="form-group col-md-6">
-                                <label for="port" class="control-label">Javis-API Port</label>
-                                <input class="form-control" type="number" id="port" value="{{client.port}}" placeholder="ex: 8080">
-                                <span class="text-muted">Port Number of Jarvis API (see in plugin configuration)</span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="theme" class="control-label">Theme</label>
-                                <select id="theme" value="{{client.theme}}" class="form-control">
-                                    <option value="slate">Dark</option>
-                                    <option value="default">Light</option>
-                                </select>
-                                <span class="text-muted">Theme for User Interface</span>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="checkbox">
-                                  <label>
-                                    <input type="checkbox" checked="{{client.mute}}">
-                                    Mute
-                                  </label>
-                                  <span class="text-muted clearfix">Check this to mute remote Jarvis and only have textual responses</span>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="checkbox">
-                                  <label>
-                                    <input type="checkbox" checked="{{client.verbose}}">
-                                    Verbose
-                                  </label>
-                                  <span class="text-muted clearfix">Call Jarvis in Troubleshooting mode to display DEBUG messages</span>
-                                </div>
-                            </div>
-                        </div>
                         {{#each config_tabs}}
                         <div class="tab-pane fade row" id="{{this.key}}">
                             {{#each this.fields:key}}
