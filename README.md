@@ -14,6 +14,10 @@ This plugin embeds a lightweight web server to control Jarvis from a user interf
 The HTTP Server is based on Python, so no dependency to install.
 There is no configuration needed, just install the plugin and start Jarvis normally.
 
+## Dependencies
+
+This plugins needs [Jarvis-API plugin](http://domotiquefacile.fr/jarvis/plugins/jarvis-api) to be installed.
+
 ## Screenshot
 
 ![Client](https://cdn.rawgit.com/alexylem/jarvis-ui/master/screenshots/client.png)
