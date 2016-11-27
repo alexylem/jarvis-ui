@@ -20,7 +20,213 @@ var ractive = new Ractive({
     
     // Here, we're passing in some initial data
     data: {
+        loading: true,
         messages: [],
+        config_tabs: [{
+            key: "general",
+            label: "General",
+            fields: [{
+                key: "language",
+                label: "Language",
+                type: "select",
+                help: "Language of Jarvis",
+                options: [
+                    { value:'en_GB', label:'English' },
+                    { value:'es_ES', label:'Español' },
+                    { value:'fr_FR', label:'Français' }
+                ]
+            },{
+                key: "username",
+                label: "Username",
+                type: "text",
+                placeholder: "ex: Alex",
+                help: "How do you want to be called"
+            },{
+                key: "trigger",
+                label: "Magic word",
+                type: "text",
+                placeholder: "ex: Jarvis",
+                help: "Magic word to be said (Jarvis name)"
+            },{
+                key: "conversation_mode",
+                label: "Conversation mode",
+                type: "checkbox",
+                help: "Wait for another command after first executed"
+            },{
+                key: "separator",
+                label: "Multi-command separator",
+                type: "text",
+                placeholder: "ex: then",
+                help: "Separator for multiple commands at once. Empty to disable"
+            },{
+                key: "check_updates",
+                label: "Check updates",
+                type: "select",
+                help: "Check Updates when Jarvis starts up",
+                options: [
+                    { value:'0', label:'Always' },
+                    { value:'1', label:'Daily - Recommended' },
+                    { value:'7', label:'Weekly' },
+                    { value:'false', label:'Never' }
+                ]
+            }]
+        },{
+            key: "phrases",
+            label: "Phrases",
+            fields: [{
+                key: "phrase_welcome",
+                label: "Startup greetings",
+                type: "text",
+                placeholder: "ex: Hello",
+                help: "What to say at program startup"
+            },{
+                key: "phrase_triggered",
+                label: "Trigger reply",
+                type: "text",
+                placeholder: "ex: Yes?",
+                help: "What to say when magic word is heard"
+            },{
+                key: "phrase_misunderstood",
+                label: "Unknown order",
+                type: "text",
+                placeholder: "ex: I did not understand",
+                help: "What to say if order not recognized"
+            },{
+                key: "phrase_failed",
+                label: "Command failed",
+                type: "text",
+                placeholder: "ex: This command has returned an error",
+                help: "What to say if user command failed"
+            }]
+        },{
+            key: "audio",
+            label: "Audio",
+            fields: [{
+                key: "play_hw",
+                label: "Speaker",
+                type: "text",
+                placeholder: "ex: hw:1,0",
+                help: ""
+            },{
+                key: "rec_hw",
+                label: "Microphone",
+                type: "text",
+                placeholder: "ex: hw:1,0",
+                help: ""
+            },{
+                key: "min_noise_duration_to_start",
+                label: "Min noise duration to start",
+                type: "text",
+                placeholder: "ex: 0.1",
+                help: ""
+            },{
+                key: "min_noise_perc_to_start",
+                label: "Min noise percentage to start",
+                type: "text",
+                placeholder: "ex: 1%",
+                help: ""
+            },{
+                key: "min_silence_duration_to_stop",
+                label: "Min silence duration to stop",
+                type: "text",
+                placeholder: "ex: 0.5",
+                help: ""
+            },{
+                key: "min_silence_level_to_stop",
+                label: "Min silence level to stop",
+                type: "text",
+                placeholder: "ex: 1%",
+                help: ""
+            },{
+                key: "max_noise_duration_to_kill",
+                label: "Max noise duration to kill",
+                type: "text",
+                placeholder: "ex: 10",
+                help: ""
+            }]
+        },{
+            key: "stt",
+            label: "Voice recognition",
+            fields: [{
+                key: "trigger_stt",
+                label: "Recognition of magic word",
+                type: "select",
+                help: "Which engine to use for the recognition of the trigger. Visit http://domotiquefacile.fr/jarvis/content/stt",
+                options: [
+                    { value:'snowboy', label:'Snowboy (offline) - Recommended' },
+                    { value:'pocketsphinx', label:'PocketSphinx (offline)' },
+                    { value:'bing', label:'Bing (online)' }
+                ]
+            },{
+                key: "command_stt",
+                label: "Recognition of commands",
+                type: "select",
+                help: "Which engine to use for the recognition of commands. Visit http://domotiquefacile.fr/jarvis/content/stt",
+                options: [
+                    { value:'bing', label:'Bing (online) - Recommended' },
+                    { value:'wit', label:'Wit.ai (online)' },
+                    { value:'snowboy', label:'Snowboy (offline)' },
+                    { value:'pocketsphinx', label:'PocketSphinx (offline)' },    
+                ]
+            },{
+                key: "snowboy_sensitivity",
+                label: "Snowboy sensitivity",
+                type: "text",
+                placeholder: "ex: 0.5",
+                help: "Snowboy sensitivity from 0 (strict) to 1 (permissive). Recommended value: 0.5"
+            },{
+                key: "snowboy_token",
+                label: "Snowboy token",
+                type: "text",
+                placeholder: "",
+                help: "Get one at: https://snowboy.kitt.ai"
+            },{
+                key: "bing_speech_api_key",
+                label: "Bing Speech API Key",
+                type: "text",
+                placeholder: "",
+                help: "How to get one: http://domotiquefacile.fr/jarvis/content/bing"
+            },{
+                key: "wit_server_access_token",
+                label: "Wit Server Access Token",
+                type: "text",
+                placeholder: "",
+                help: "Get one at: https://wit.ai/apps/new"
+            },{
+                key: "dictionary",
+                label: "PocketSphinx dictionary file",
+                type: "text",
+                placeholder: "ex: path/to/dictionary.dic",
+                help: "Default: stt_engines/pocketsphinx/jarvis-dictionary.dic"
+            },{
+                key: "language_model",
+                label: "PocketSphinx language model file",
+                type: "text",
+                placeholder: "ex: path/to/language_model.lm",
+                help: "Default: stt_engines/pocketsphinx/jarvis-languagemodel.lm"
+            },{
+                key: "pocketsphinxlog",
+                label: "File to store PocketSphinx logs",
+                type: "text",
+                placeholder: "ex: path/to/log_file.log",
+                help: "Default: /dev/null"
+            }]
+        },{
+            key: "tts",
+            label: "Speech synthesis",
+            fields: [{
+                key: "tts_engine",
+                label: "Speech engine",
+                type: "select",
+                help: "Which engine to use for the speech synthesis. Visit http://domotiquefacile.fr/jarvis/content/tts",
+                options: [
+                    { value:'svox_pico', label:'SVOX Pico (offline) - Recommended' },
+                    { value:'google', label:'Google (online)' },
+                    { value:'espeak', label:'Espeak (offline)' },
+                    { value:'osx_say', label:'Say (offline) - OSX only' }
+                ]
+            }]
+        }],
         client: {
             mute: true,
             port: 8080,
@@ -34,11 +240,27 @@ var ractive = new Ractive({
     },
     
     onrender: function () {
-        themesheet.attr('href',themes[this.get('client.theme')]).appendTo('head');
+        ractive=this;
+        
+        // apply default theme
+        themesheet.attr('href',themes[ractive.get('client.theme')]).appendTo('head');
+        
+        // load config
+        my.post({
+            url: ractive.get ('server_url'),
+            data: JSON.stringify ({ action: "get_config" }),
+            success: function (config) {
+                ractive.set ('server', config);
+                
+                // welcome message
+                ractive.addMessage (ractive.get ('server.trigger'), ractive.get ('server.phrase_welcome'));
+            }
+        });
         
         $('#order_input').focus ();
-        this.addMessage ('Jarvis', 'Bonjour');
         
+        
+        // initialize code editor
         cmd ('lib/codemirror/lib/codemirror.js',
     		 'lib/codemirror/mode/shell/shell.js',
              function () {
@@ -102,6 +324,33 @@ ractive.on ('commands_save_btn', function (e) {
         }),
         success: function (message) {
             my.success ("Commands saved successfuly");
+        }
+    });
+});
+
+ractive.on ('open_settings', function () {
+    // reload config
+    my.post({
+        url: ractive.get ('server_url'),
+        data: JSON.stringify ({ action: "get_config" }),
+        success: function (config) {
+            ractive.set ('server', config);
+            // open settings modal
+            $('#settings_modal').modal('show');
+        }
+    });
+});
+
+ractive.on ('settings_save_btn', function (e) {
+    $('#settings_modal').modal('hide');
+    my.post({
+        url: ractive.get ('server_url'),
+        data: JSON.stringify ({
+            action: "set_config",
+            config: ractive.get('server')
+        }),
+        success: function (message) {
+            my.success ("Settings saved successfuly");
         }
     });
 });

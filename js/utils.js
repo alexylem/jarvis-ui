@@ -58,36 +58,50 @@ var my = new function () { // new is needed!
 			console.debug.apply (console, Array.prototype.slice.call(arguments));
 		}
 	};
-
-	this.post = function (args) {
-		var url = args.url,
+    
+	this.ajax = function (args) {
+		ractive.set ('loading', true);
+        var url = args.url,
 			data = args.data,
+            //timeout = typeof (args.timeout) === 'undefined'?5000:args.timeout,
 			success = args.success,
-			ferror = args.error,
-			timeout = typeof (args.timeout) === 'undefined'?5000:args.timeout;
-		my.log ('	calling "'+url+'" with parameters '+JSON.stringify (data)+'...');
-		$.post({
+			ferror = args.error;
+		my.log ('	calling "'+url+'" with parameters ', data);
+		$.ajax({
 			url: url,
+            type : args.type,
 			data: data,
-			timeout: timeout,
+            dataType: "json",
+            tryCount : 0, // http://stackoverflow.com/questions/10024469/whats-the-best-way-to-retry-an-ajax-request-on-failure-using-jquery
+            retryLimit : 3,
+			//timeout: timeout,
 			success: function(response) {
+                ractive.set ('loading', false);
                 my.log ('	response from '+url+':', response);
                 if (typeof response !== 'object') {
-					var tmp = document.createElement("DIV");  // strip html tags
-					tmp.innerHTML = response; 				  // strip html tags
+					var tmp = document.createElement("DIV");      // strip html tags
+					tmp.innerHTML = response; 				      // strip html tags
 					var message = tmp.textContent||tmp.innerText; // strip html tags
-                    console.error ('Error '+error+' from '+url+': ',message);
-					if (typeof(ferror) == 'function')
-						ferror(message);
-					else
-						my.error (/*'Error '+error+' from '+url+': '+*/message);
-					return false;
-				}
+                    console.error ('Error from '+url+': ',message);
+    				if (typeof(ferror) == 'function')
+    					ferror(message);
+    				else
+    					my.error (/*'Error '+error+' from '+url+': '+*/message);
+    				return false;
+                }
 				if (typeof(success) == 'function')
 					success(response);
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) { 
-				// $.mobile.loading('hide');
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				my.log ('textStatus', textStatus);
+                if (textStatus == 'timeout') {
+                    this.tryCount++;
+                    if (this.tryCount <= this.retryLimit) {
+                        my.ajax (this); //try again
+                        my.info ('Retrying to reach '+url+'...');
+                    }
+                }
+                ractive.set ('loading', false);
 				var message = textStatus+';'+XMLHttpRequest.responseText+';'+errorThrown;
 				if (typeof(ferror) == 'function')
 					ferror(message);
@@ -97,6 +111,11 @@ var my = new function () { // new is needed!
 			}
 		});
 	};
+    
+    this.post = function (args) {
+        args.type='POST';
+        this.ajax (args);
+    };
     
     this.get = function (fieldname) {
         value = localStorage.getItem(fieldname);
