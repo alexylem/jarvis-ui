@@ -14,6 +14,10 @@ This plugin embeds a lightweight web server to control Jarvis from a user interf
 The HTTP Server is based on Python, so no dependency to install.
 There is no configuration needed, just install the plugin and start Jarvis normally.
 
+## Screenshot
+
+![Client](https://cdn.rawgit.com/alexylem/jarvis-ui/master/screenshots/client.png)
+
 ## Usage
 ```
 $> ./jarvis.sh
