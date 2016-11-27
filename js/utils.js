@@ -77,18 +77,22 @@ var my = new function () { // new is needed!
 			//timeout: timeout,
 			success: function(response) {
                 ractive.set ('loading', false);
-                my.log ('	response from '+url+':', response);
                 if (typeof response !== 'object') {
-					var tmp = document.createElement("DIV");      // strip html tags
-					tmp.innerHTML = response; 				      // strip html tags
-					var message = tmp.textContent||tmp.innerText; // strip html tags
-                    console.error ('Error from '+url+': ',message);
-    				if (typeof(ferror) == 'function')
-    					ferror(message);
-    				else
-    					my.error (/*'Error '+error+' from '+url+': '+*/message);
-    				return false;
+					try {
+                        response = JSON.parse (response);
+                    } catch (e) {
+                        var tmp = document.createElement("DIV");      // strip html tags
+    					tmp.innerHTML = response; 				      // strip html tags
+    					var message = tmp.textContent||tmp.innerText; // strip html tags
+                        console.error ('Error from '+url+': ',message);
+        				if (typeof(ferror) == 'function')
+        					ferror(message);
+        				else
+        					my.error (/*'Error '+error+' from '+url+': '+*/message);
+        				return false;
+                    }
                 }
+                my.log ('	response from '+url+':', response);
 				if (typeof(success) == 'function')
 					success(response);
 			},

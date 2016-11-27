@@ -35,16 +35,38 @@
                 <a href="http://domotiquefacile.fr/jarvis" target="_blank"><img src="img/jarvis_logo_red.png" /></a>
                 {{#loading}}<span class="fa fa-spinner rotate"></span> <span class="text-muted">loading...</span>{{/}}
                 <div class="btn-group pull-right">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#commands_modal" {{#loading}}disabled="disabled"{{/}}>
-                        <span class="fa fa-file-code-o"></span> Commands
-                    </button>
-                    <button class="btn btn-default" disabled="disabled">
-                        <span class="fa fa-calendar"></span> Events
-                    </button>
-                    <button class="btn btn-default" on-click="open_settings" {{#loading}}disabled="disabled"{{/}}>
-                        <span class="fa fa-cog"></span>
-                    </button>
-                    <a href="http://domotiquefacile.fr/jarvis/content/support" target="_blank" class="btn btn-default"><span class="fa fa-question"></span></a>
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" {{#loading}}disabled="disabled"{{/}}>
+                            <span class="fa fa-cog"></span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="#" data-toggle="modal" data-target="#commands_modal">
+                                <span class="fa fa-file-code-o"></span> Commands
+                            </a></li>
+                            <li class="disabled"><a href="#">
+                                <span class="fa fa-calendar"></span> Events
+                            </a></li>
+                            <li><a href="#" on-click="open_settings">
+                                <span class="fa fa-cog"></span> Settings
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span class="fa fa-question"></span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="http://domotiquefacile.fr/jarvis/content/support" target="_blank">
+                                <span class="fa fa-question"></span> Get Support
+                            </a></li>
+                            <li><a href="https://github.com/alexylem/jarvis-ui/issues/new" target="_blank">
+                                <span class="fa fa-exclamation-triangle"></span> Report an issue on Jarvis UI
+                            </a></li>
+                            <li><a href="https://github.com/alexylem/jarvis/issues/new" target="_blank">
+                                <span class="fa fa-exclamation-triangle"></span> Report an issue on Jarvis
+                            </a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="panel-body">
