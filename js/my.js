@@ -226,6 +226,20 @@ var ractive = new Ractive({
                     { value:'voxygen', label:'Voxygen (online)' },
                     { value:'osx_say', label:'Say (offline) - OSX only' }
                 ]
+            },{
+                key: "voxygen_voice",
+                label: "Voxygen voice",
+                type: "select",
+                help: "Voxygen Voice. Try them at https://www.voxygen.fr",
+                options: [
+                    { value:'Martha', label:'ES - Martha (mujer)' },
+                    { value:'Loic', label:'FR - Loic (homme)' },
+                    { value:'Marion', label:'FR - Marion (femme)' },
+                    { value:'Electra', label:'FR - Electra (sensuelle)' },
+                    { value:'Becool', label:'FR - Becool (babacool)' },
+                    { value:'Bruce', label:'US - Bruce (male)' },
+                    { value:'Jenny', label:'US - Jenny (female)' },
+                ]
             }]
         }],
         client: {
