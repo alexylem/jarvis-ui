@@ -221,8 +221,9 @@ var ractive = new Ractive({
                 help: "Which engine to use for the speech synthesis. Visit http://domotiquefacile.fr/jarvis/content/tts",
                 options: [
                     { value:'svox_pico', label:'SVOX Pico (offline) - Recommended' },
-                    { value:'google', label:'Google (online)' },
                     { value:'espeak', label:'Espeak (offline)' },
+                    { value:'google', label:'Google (online)' },
+                    { value:'voxygen', label:'Voxygen (online)' },
                     { value:'osx_say', label:'Say (offline) - OSX only' }
                 ]
             }]
