@@ -16,7 +16,7 @@ jv_pg_ui_start () {
     local previous_dir="$(pwd)"
     local current_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
     cd $current_dir/../
-    python -m SimpleHTTPServer $jv_pg_ui_port >/dev/null & 
+    nohup python -m SimpleHTTPServer $jv_pg_ui_port >/dev/null & 
     cd $previous_dir
 }
 
