@@ -8,7 +8,7 @@ var themes = {
     default: "css/light.css"
 };
 var themesheet = $('<link href="" rel="stylesheet" />');
-var codemirror;
+var commmands_cm, events_cm;
 
 var ractive = new Ractive({
     // The `el` option can be a node, an ID, or a CSS selector.
@@ -279,11 +279,13 @@ var ractive = new Ractive({
         cmd ('lib/codemirror/lib/codemirror.js',
     		 'lib/codemirror/mode/shell/shell.js',
              function () {
-                 codemirror = CodeMirror.fromTextArea($('#commands_textarea')[0], {
+                 var params={
                      mode: "shell",
                      lineNumbers: true,
                      matchBrackets: true
-                 });
+                 };
+                 commmands_cm = CodeMirror.fromTextArea($('#commands_textarea')[0], params);
+                 events_cm = CodeMirror.fromTextArea($('#events_textarea')[0], params);
              }
          );
     },
@@ -321,10 +323,10 @@ ractive.on ('open_commands', function (e) {
         }),
         success: function (result) {
             $('#commands_modal').modal('show');
-            codemirror.setValue (result.commands);
+            commmands_cm.setValue (result.commands);
             setTimeout(function() {
-                codemirror.refresh();
-                codemirror.focus();
+                commmands_cm.refresh();
+                commmands_cm.focus();
             }, 500);
         }
     });
@@ -336,10 +338,41 @@ ractive.on ('commands_save_btn', function (e) {
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
             action: "set_commands",
-            commands: codemirror.getValue()
+            commands: commmands_cm.getValue()
         }),
         success: function (message) {
             my.success ("Commands saved successfuly");
+        }
+    });
+});
+
+ractive.on ('open_events', function (e) {
+    my.post({
+        url: ractive.get ('server_url'),
+        data: JSON.stringify ({
+            action: "get_events"
+        }),
+        success: function (result) {
+            $('#events_modal').modal('show');
+            events_cm.setValue (result.events);
+            setTimeout(function() {
+                events_cm.refresh();
+                events_cm.focus();
+            }, 500);
+        }
+    });
+});
+
+ractive.on ('events_save_btn', function (e) {
+    $('#events_modal').modal('hide');
+    my.post({
+        url: ractive.get ('server_url'),
+        data: JSON.stringify ({
+            action: "set_events",
+            events: events_cm.getValue()
+        }),
+        success: function (message) {
+            my.success ("Events saved successfuly");
         }
     });
 });

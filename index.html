@@ -43,7 +43,7 @@
                             <li><a href="#" on-click="open_commands">
                                 <span class="fa fa-file-code-o"></span> Commands
                             </a></li>
-                            <li class="disabled"><a href="#">
+                            <li><a href="#" on-click="open_events">
                                 <span class="fa fa-calendar"></span> Events
                             </a></li>
                             <li><a href="#" data-toggle="modal" data-target="#client_settings_modal">
@@ -123,7 +123,26 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- Events -->
+    <div class="modal fade" id="events_modal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="http://domotiquefacile.fr/jarvis/content/events" target="_blank" class="btn btn-default pull-right"><span class="fa fa-lightbulb-o"></span> Advices</a>
+                    <h4 class="modal-title">Events</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea id="events_textarea" class="form-control" rows="10"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button on-click="events_save_btn" type="button" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Client Settings -->
     <div class="modal fade" id="client_settings_modal" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-lg" role="document">
