@@ -21,9 +21,12 @@ This plugins needs [Jarvis-API plugin](http://domotiquefacile.fr/jarvis/plugins/
 ## Screenshot
 
 ![Client](https://cdn.rawgit.com/alexylem/jarvis-ui/master/screenshots/client.png)
+
 ![Config](https://cloud.githubusercontent.com/assets/11017174/20649162/b9ef199c-b4b8-11e6-8534-584de684c51b.png)
+
 ![Commands](https://cloud.githubusercontent.com/assets/11017174/20580175/22bcb74e-b1d1-11e6-9bbd-bbb84343dd95.png)
-![Events](https://cloud.githubusercontent.com/assets/11017174/20898581/2e81c2cc-bb27-11e6-9897-8e7e0643ef40.png)
+
+![Events](https://cloud.githubusercontent.com/assets/11017174/20899691/c1420d0c-bb2b-11e6-9893-0cfd4240a67c.png)
 
 ## Usage
 ```
