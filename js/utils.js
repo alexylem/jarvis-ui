@@ -145,13 +145,13 @@ var my = new function () { // new is needed!
     };
 
     this.getObjects = function (collection) {
-    	var json=get(collection);
+    	var json=my.get(collection);
     	return json && JSON.parse(json) || [];
     };
 
     this.setObjects = function (collection, objects) {
     	my.debug ('setting objects for', collection);
-    	set(collection, JSON.stringify(typeof objects === "undefined"?[]:objects));
+    	my.set(collection, JSON.stringify(typeof objects === "undefined"?[]:objects));
     };
 
     this.getObject = function (collection, id) {

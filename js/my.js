@@ -242,12 +242,12 @@ var ractive = new Ractive({
                 ]
             }]
         }],
-        client: {
+        client: $.extend ({}, {
             mute: true,
             port: 8080,
             theme: "slate",
             verbose: false
-        }, // client config
+        }, my.getObjects ('client')), // client config
         server: {} // server config
     },
     computed: {
@@ -375,6 +375,12 @@ ractive.on ('events_save_btn', function (e) {
             my.success ("Events saved successfuly");
         }
     });
+});
+
+ractive.on ('client_save_btn', function (e) {
+    $('#client_settings_modal').modal('hide');
+    my.setObjects ('client', ractive.get ('client'));
+    my.success ("Settings saved successfuly");
 });
 
 ractive.on ('open_settings', function () {
