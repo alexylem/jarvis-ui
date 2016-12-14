@@ -28,6 +28,21 @@ This plugins needs [Jarvis-API plugin](http://domotiquefacile.fr/jarvis/plugins/
 
 ![Events](https://cloud.githubusercontent.com/assets/11017174/20899691/c1420d0c-bb2b-11e6-9893-0cfd4240a67c.png)
 
+What you can do:
+* Start the user interface from any modern browser
+* Use on smartphone (responsive)
+* Type commands to execute
+* Make Jarvis say something
+* Manage user commands
+* Manage Events
+* Configure Jarvis
+* Use in mute / verbose modes
+* Choose from Light / Dark themes
+
+New features to come soon:
+* Manage plugins
+* Install Jarvis remotely
+
 ## Usage
 ```
 $> ./jarvis.sh
