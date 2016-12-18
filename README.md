@@ -40,6 +40,7 @@ What you can do:
 * Choose from Light / Dark themes
 
 New features to come soon:
+* Speak commands to execute (from browser)
 * Manage plugins
 * Install Jarvis remotely
 
