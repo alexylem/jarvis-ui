@@ -8,7 +8,7 @@
 # XX can be a two letters code for your plugin, ex: ww for Weather Wunderground
 
 jv_pg_ui_myip () {
-    ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
+    ifconfig | sed -En 's/127.0.0.1//;s/.*inet (ad[d]?r:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
 }
 
 jv_pg_ui_start () {
