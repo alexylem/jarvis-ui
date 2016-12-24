@@ -48,6 +48,11 @@ var ractive = new Ractive({
                 placeholder: "ex: Jarvis",
                 help: "Magic word to be said (Jarvis name)"
             },{
+                key: "show_commands",
+                label: "Show possible commands",
+                type: "checkbox",
+                help: "Show commands on startup and possible answers"
+            },{
                 key: "conversation_mode",
                 label: "Conversation mode",
                 type: "checkbox",
