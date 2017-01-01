@@ -109,7 +109,12 @@ var my = new function () { // new is needed!
                 if (XMLHttpRequest.readyState === 0)
                     error = "Connection error. Verify Jarvis is started, has jarvis-api installed and check api port in Client settings";
                 else
-                    error = 'Error '+XMLHttpRequest.status+' from '+url+': '+textStatus+';'+XMLHttpRequest.responseText+';'+errorThrown;
+                    try {
+                        jerror = JSON.parse (XMLHttpRequest.responseText);
+                        error=jerror.error;
+                    } catch (e) {
+                        error = 'Error '+XMLHttpRequest.status+' from '+url+': '+textStatus+';'+XMLHttpRequest.responseText+';'+errorThrown;
+                    }
                 if (typeof(ferror) == 'function')
     				ferror(error);
 				else

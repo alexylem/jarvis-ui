@@ -51,6 +51,12 @@ Starting User Interface on http://192.168.1.20:8081
 ...
 ```
 Now open the above URL in a modern web browser.
+You can also ask Jarvis (needs a graphical environment):
+```
+$> ./jarvis.sh
+You: open the interface
+Jarvis: Ok
+```
 
 ## Author
 [Alex](https://github.com/alexylem)

@@ -247,12 +247,13 @@ var ractive = new Ractive({
                 ]
             }]
         }],
-        client: $.extend ({}, {
+        client: $.extend ({}, { // default config
             mute: true,
             port: 8080,
+            key: "",
             theme: "slate",
             verbose: false
-        }, my.getObjects ('client')), // client config
+        }, my.getObjects ('client')), // client config from localstorage
         server: {} // server config
     },
     computed: {
@@ -268,12 +269,19 @@ var ractive = new Ractive({
         // load config
         my.post({
             url: ractive.get ('server_url'),
-            data: JSON.stringify ({ action: "get_config" }),
+            data: JSON.stringify ({
+                key: ractive.get ("client.key"),
+                action: "get_config"
+            }),
             success: function (config) {
                 ractive.set ('server', config);
                 
                 // welcome message
                 ractive.addMessage (ractive.get ('server.trigger'), ractive.get ('server.phrase_welcome'));
+            },
+            error: function (error) {
+                my.error (error);
+                $('#client_settings_modal').modal('show');
             }
         });
         
@@ -324,6 +332,7 @@ ractive.on ('open_commands', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
+            key: ractive.get ("client.key"),
             action: "get_commands"
         }),
         success: function (result) {
@@ -342,6 +351,7 @@ ractive.on ('commands_save_btn', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
+            key: ractive.get ("client.key"),
             action: "set_commands",
             commands: commmands_cm.getValue()
         }),
@@ -355,6 +365,7 @@ ractive.on ('open_events', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
+            key: ractive.get ("client.key"),
             action: "get_events"
         }),
         success: function (result) {
@@ -373,6 +384,7 @@ ractive.on ('events_save_btn', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
+            key: ractive.get ("client.key"),
             action: "set_events",
             events: events_cm.getValue()
         }),
@@ -392,7 +404,10 @@ ractive.on ('open_settings', function () {
     // reload config
     my.post({
         url: ractive.get ('server_url'),
-        data: JSON.stringify ({ action: "get_config" }),
+        data: JSON.stringify ({
+            key: ractive.get ("client.key"),
+            action: "get_config"
+        }),
         success: function (config) {
             ractive.set ('server', config);
             // open jarvis settings modal
@@ -408,6 +423,7 @@ ractive.on ('settings_save_btn', function (e) {
     my.post({
         url: ractive.get ('server_url'),
         data: JSON.stringify ({
+            key: ractive.get ("client.key"),
             action: "set_config",
             config: ractive.get('server')
         }),
@@ -421,7 +437,10 @@ ractive.on('submit', function(event) {
     event.original.preventDefault();
     var order=this.get('order'),
         action=ractive.get ('action'),
-        data={ verbose: ractive.get('client.verbose') };
+        data={
+            key: ractive.get ("client.key"),
+            verbose: ractive.get('client.verbose')
+        };
     ractive.set('order', '');
     data[action]=order;
     if (action == "order") {
