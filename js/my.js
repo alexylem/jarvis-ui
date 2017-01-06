@@ -33,7 +33,8 @@ var ractive = new Ractive({
                 options: [
                     { value:'en_GB', label:'English' },
                     { value:'es_ES', label:'Español' },
-                    { value:'fr_FR', label:'Français' }
+                    { value:'fr_FR', label:'Français' },
+                    { value:'it_IT', label:'Italien' }
                 ]
             },{
                 key: "username",
