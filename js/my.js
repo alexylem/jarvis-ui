@@ -34,7 +34,7 @@ var ractive = new Ractive({
                     { value:'en_GB', label:'English' },
                     { value:'es_ES', label:'Español' },
                     { value:'fr_FR', label:'Français' },
-                    { value:'it_IT', label:'Italien' }
+                    { value:'it_IT', label:'Italiano' }
                 ]
             },{
                 key: "username",
