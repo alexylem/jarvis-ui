@@ -240,6 +240,7 @@ var ractive = new Ractive({
                 options: [
                     { value:'Martha', label:'ES - Martha (mujer)' },
                     { value:'Loic', label:'FR - Loic (homme)' },
+                    { value:'Philippe', label:'FR - Philippe (homme)' },
                     { value:'Marion', label:'FR - Marion (femme)' },
                     { value:'Electra', label:'FR - Electra (sensuelle)' },
                     { value:'Becool', label:'FR - Becool (babacool)' },
