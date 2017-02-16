@@ -244,6 +244,7 @@ var ractive = new Ractive({
                     { value:'Marion', label:'FR - Marion (femme)' },
                     { value:'Electra', label:'FR - Electra (sensuelle)' },
                     { value:'Becool', label:'FR - Becool (babacool)' },
+                    { value:'Sonia', label:'IT - Sonia (sonia)' },
                     { value:'Bruce', label:'US - Bruce (male)' },
                     { value:'Jenny', label:'US - Jenny (female)' },
                 ]
