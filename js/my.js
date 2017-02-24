@@ -238,12 +238,14 @@ var ractive = new Ractive({
                 type: "select",
                 help: "Voxygen Voice. Try them at https://www.voxygen.fr",
                 options: [
+                    { value:'Matthias', label: 'DE - Matthias (Mann)'},
                     { value:'Martha', label:'ES - Martha (mujer)' },
                     { value:'Loic', label:'FR - Loic (homme)' },
                     { value:'Philippe', label:'FR - Philippe (homme)' },
                     { value:'Marion', label:'FR - Marion (femme)' },
                     { value:'Electra', label:'FR - Electra (sensuelle)' },
                     { value:'Becool', label:'FR - Becool (babacool)' },
+                    { value:'Sonia', label:'IT - Sonia (Donna)' },
                     { value:'Bruce', label:'US - Bruce (male)' },
                     { value:'Jenny', label:'US - Jenny (female)' },
                 ]
