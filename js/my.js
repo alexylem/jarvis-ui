@@ -229,25 +229,7 @@ var ractive = new Ractive({
                     { value:'svox_pico', label:'SVOX Pico (offline) - Recommended' },
                     { value:'espeak', label:'Espeak (offline)' },
                     { value:'google', label:'Google (online)' },
-                    { value:'voxygen', label:'Voxygen (online)' },
                     { value:'osx_say', label:'Say (offline) - OSX only' }
-                ]
-            },{
-                key: "voxygen_voice",
-                label: "Voxygen voice",
-                type: "select",
-                help: "Voxygen Voice. Try them at https://www.voxygen.fr",
-                options: [
-                    { value:'Matthias', label: 'DE - Matthias (Mann)'},
-                    { value:'Martha', label:'ES - Martha (mujer)' },
-                    { value:'Loic', label:'FR - Loic (homme)' },
-                    { value:'Philippe', label:'FR - Philippe (homme)' },
-                    { value:'Marion', label:'FR - Marion (femme)' },
-                    { value:'Electra', label:'FR - Electra (sensuelle)' },
-                    { value:'Becool', label:'FR - Becool (babacool)' },
-                    { value:'Sonia', label:'IT - Sonia (Donna)' },
-                    { value:'Bruce', label:'US - Bruce (male)' },
-                    { value:'Jenny', label:'US - Jenny (female)' },
                 ]
             }]
         }],
