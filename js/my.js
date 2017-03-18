@@ -143,12 +143,6 @@ var ractive = new Ractive({
                 type: "text",
                 placeholder: "ex: 1%",
                 help: ""
-            },{
-                key: "max_noise_duration_to_kill",
-                label: "Max noise duration to kill",
-                type: "text",
-                placeholder: "ex: 10",
-                help: ""
             }]
         },{
             key: "stt",
