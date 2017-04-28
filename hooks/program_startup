@@ -1,0 +1,2 @@
+jv_pg_ui_start
+$jv_pg_ui_open_browser && jv_browse_url "http://$jv_ip:$jv_pg_ui_port"

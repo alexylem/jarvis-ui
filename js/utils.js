@@ -39,7 +39,7 @@ var my = new function () { // new is needed!
 			this.notify ('info', message);
 		}
 	};
-
+    
 	this.success = function (message, url) {
 		if (this.loglevel >= _NOTICE_) {
 			console.info (message);

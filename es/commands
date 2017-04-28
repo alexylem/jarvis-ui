@@ -1,1 +1,1 @@
-*OPEN*INTERFACE*==say "Ok"; jv_browse_url "http://$(jv_pg_ui_myip):$jv_pg_ui_port"
+*OPEN*INTERFACE*==say "Ok"; jv_browse_url "http://$jv_ip:$jv_pg_ui_port"

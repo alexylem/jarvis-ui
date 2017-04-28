@@ -91,9 +91,9 @@
                         <div class="col-xs-9">
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" disabled="disabled"><span class="fa fa-microphone"></span></button>
+                                    <button class="btn btn-{{#if stt_state == 'recording'}}danger{{else}}default{{/if}}" type="button" on-click="record" {{#unless stt_supported}}disabled="disabled"{{/unless}}><span class="fa {{stt_icons[stt_state]}}"></span></button>
                                 </span>
-                                <input id="order_input" type="text" class="form-control" placeholder="Type {{#if action=='order'}}an order{{else}}something to say{{/if}}..." value="{{order}}">
+                                <input id="order_input" type="text" class="form-control" placeholder="{{placeholder}}" value="{{order}}">                                   
                                 <span class="input-group-btn">
                                     <button class="btn btn-success" type="button" on-click="submit" {{#loading}}disabled="disabled"{{/}}><span class="glyphicon glyphicon-send"></span></button>
                                 </span>

@@ -9,6 +9,8 @@ var themes = {
 };
 var themesheet = $('<link href="" rel="stylesheet" />');
 var commmands_cm, events_cm;
+var recognition;
+var start_recording;
 
 var ractive = new Ractive({
     // The `el` option can be a node, an ID, or a CSS selector.
@@ -21,6 +23,17 @@ var ractive = new Ractive({
     // Here, we're passing in some initial data
     data: {
         loading: true,
+        stt_supported: false,
+        stt_state: "loading",
+        stt_icons: {
+            loading: "fa-spinner rotate",
+            ready: "fa-microphone",
+            error: "fa-microphone-slash",
+            recording: "fa-stop-circle-o"
+        },
+        placeholder: "Type something...",
+        order: "",
+        interim_order: "",
         messages: [],
         config_tabs: [{
             key: "general",
@@ -266,47 +279,124 @@ var ractive = new Ractive({
             }
         });
         
-        $('#order_input').focus ();
+        // Load speech reco engine
+        if (!('webkitSpeechRecognition' in window)) {
+            ractive.set ('stt_state', 'error');
+            my.warn ('Web Speech API is not supported by this browser. Upgrade to <a href="//www.google.com/chrome">Chrome</a> version 25 or later.');
+        } else {
+            ractive.set ('stt_state', 'ready');
+            ractive.set ('stt_supported', true);
+            
+            recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = 'fr-FR'; // TODO hardcoded
+            
+            recognition.onstart = function() {
+                recognizing = true;
+                ractive.set ('stt_state', 'recording');
+            };
+            
+            recognition.onerror = function(event) {
+                if (event.error == 'no-speech') {
+                    ractive.set ('stt_state', 'ready');
+                    my.warn ('No speech was detected. You may need to adjust your <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892"> microphone settings</a>.');
+                    ignore_onend = true;
+                }
+                if (event.error == 'audio-capture') {
+                    ractive.set ('stt_state', 'ready');
+                    my.error ('No microphone was found. Ensure that a microphone is installed and that <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892"> microphone settings</a> are configured correctly.');
+                    ignore_onend = true;
+                }
+                if (event.error == 'not-allowed') {
+                    if (Date.now() - start_recording < 100) {
+                        my.error ('Permission to use microphone is blocked. To change, go to chrome://settings/contentExceptions#media-stream');
+                    } else {
+                        my.error ('Permission to use microphone was denied.');
+                    }
+                    ignore_onend = true;
+                }
+            };
+            
+            recognition.onend = function() {
+                recognizing = false;
+                if (ignore_onend) {
+                    return;
+                }
+                ractive.set ('stt_state', 'ready');
+                ractive.set ('placeholder', 'Type something...');
+                if (ractive.get ('order') === "") {
+                    my.info ('Click on the microphone icon and begin speaking.');
+                    return;
+                } else {
+                    ractive.fire ('submit');
+                }
+            };
+            
+            recognition.onresult = function(event) {
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (! event.results[i].isFinal) {
+                        ractive.set ('order', event.results[i][0].transcript);
+                    }
+                }
+            };
+        }
         
+        // Set focus on text input
+        $('#order_input').focus ();
         
         // initialize code editor
         cmd ('lib/codemirror/lib/codemirror.js',
-    		 'lib/codemirror/mode/shell/shell.js',
-             function () {
-                 var params={
-                     mode: "shell",
-                     lineNumbers: true,
-                     matchBrackets: true
-                 };
-                 commmands_cm = CodeMirror.fromTextArea($('#commands_textarea')[0], params);
-                 events_cm = CodeMirror.fromTextArea($('#events_textarea')[0], params);
-             }
-         );
-    },
-    
-    addMessage: function (key, text) {
-        switch (key) {
-            case 'debug':
-            case 'warning':
-            case 'error':
-                type=key;
-                break;
-            case 'You':
-                type='you';
-                break;
-            default:
-                type="jarvis";
+        'lib/codemirror/mode/shell/shell.js',
+        function () {
+            var params={
+                mode: "shell",
+                lineNumbers: true,
+                matchBrackets: true
+            };
+            commmands_cm = CodeMirror.fromTextArea($('#commands_textarea')[0], params);
+            events_cm = CodeMirror.fromTextArea($('#events_textarea')[0], params);
         }
-        this.push ('messages', {
-            type: type,
-            key: key,
-            text: text
-        });
+    );
+},
+
+addMessage: function (key, text) {
+    switch (key) {
+        case 'debug':
+        case 'warning':
+        case 'error':
+        type=key;
+        break;
+        case 'You':
+        type='you';
+        break;
+        default:
+        type="jarvis";
     }
+    this.push ('messages', {
+        type: type,
+        key: key,
+        text: text
+    });
+}
 });
 
 ractive.observe('client.theme', function ( newValue, oldValue, keypath ) {
     themesheet.attr('href',themes[newValue]);
+});
+
+ractive.on ('record', function () {
+    if (ractive.get ('stt_state') == "recording") {
+        recognition.stop ();
+        ractive.set ('placeholder', 'Type something...');
+        return;
+    }
+    recognition.start();
+    ignore_onend = false;
+    ractive.set ('stt_state', 'recording');
+    ractive.set ('placeholder', 'Say something...');
+    //my.warn ('Click the "Allow" button above to enable your microphone.');
+    start_recording = Date.now();
 });
 
 ractive.on ('open_commands', function (e) {
@@ -415,13 +505,16 @@ ractive.on ('settings_save_btn', function (e) {
 });
 
 ractive.on('submit', function(event) {
-    event.original.preventDefault();
-    var order=this.get('order'),
-        action=ractive.get ('action'),
-        data={
-            key: ractive.get ("client.key"),
-            verbose: ractive.get('client.verbose')
-        };
+    my.debug (event);
+    try {
+        event.original.preventDefault();
+    } catch (e) {}
+    var order=ractive.get('order'),
+    action=ractive.get ('action'),
+    data={
+        key: ractive.get ("client.key"),
+        verbose: ractive.get('client.verbose')
+    };
     ractive.set('order', '');
     data[action]=order;
     if (action == "order") {
