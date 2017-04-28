@@ -13,6 +13,7 @@ For multi-language plugin:
 This plugin embeds a lightweight web server to control Jarvis from a user interface.
 The HTTP Server is based on Python, so no dependency to install.
 There is no configuration needed, just install the plugin and start Jarvis normally.
+Speech recognition button only works on Chrome for Desktop and Android.
 
 ## Dependencies
 
@@ -28,6 +29,8 @@ This plugins needs [Jarvis-API plugin](http://domotiquefacile.fr/jarvis/plugins/
 
 ![Events](https://cloud.githubusercontent.com/assets/11017174/20899691/c1420d0c-bb2b-11e6-9893-0cfd4240a67c.png)
 
+https://youtu.be/xV3RfVNwzwc
+
 What you can do:
 * Start the user interface from any modern browser
 * Use on smartphone (responsive)
@@ -38,9 +41,9 @@ What you can do:
 * Configure Jarvis
 * Use in mute / verbose modes
 * Choose from Light / Dark themes
+* Speak commands to execute (only Chrome)
 
 New features to come soon:
-* Speak commands to execute (from browser)
 * Manage plugins
 * Install Jarvis remotely
 
