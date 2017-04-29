@@ -271,7 +271,7 @@ var ractive = new Ractive({
                 ractive.set ('server', config);
                 
                 // welcome message
-                ractive.addMessage (ractive.get ('server.trigger'), ractive.get ('server.phrase_welcome'));
+                ractive.addMessage ('answer', ractive.get ('server.phrase_welcome'));
             },
             error: function (error) {
                 my.error (error);
@@ -365,13 +365,18 @@ addMessage: function (key, text) {
         case 'debug':
         case 'warning':
         case 'error':
-        type=key;
-        break;
-        case 'You':
-        type='you';
-        break;
+            type=key;
+            break;
+        case 'you':
+            type='you';
+            key=ractive.get('server.username');
+            break;
+        case 'answer':
+            type="jarvis";
+            key=ractive.get('server.trigger');
+            break;
         default:
-        type="jarvis";
+            my.error ('unknown key: '+key);
     }
     this.push ('messages', {
         type: type,
@@ -519,7 +524,7 @@ ractive.on('submit', function(event) {
     data[action]=order;
     if (action == "order") {
         data.mute=ractive.get('client.mute');
-        ractive.addMessage ('You', order);
+        ractive.addMessage ('you', order);
         $(".panel-body").animate({ scrollTop: 9999 });
     } else {
         data.mute=false;
